@@ -1,16 +1,28 @@
-# This is a sample Python script.
+from tkinter import *
 
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
+# override the window settings
+root = Tk()
+root.geometry('1080x720')
+root.title("MineSweeper")
+root.resizable(False, False)
+root.configure(bg="black")
 
+# frame
+top_frame = Frame(
+    root,
+    bg="red",
+    width=1080,
+    height=180
+)
+top_frame.place(x=0, y=0)
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
+left_frame = Frame(
+    root,
+    bg="blue",
+    width=216,
+    height=720
+)
+left_frame.place(x=0, y=180)
 
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+# run the window
+root.mainloop()
