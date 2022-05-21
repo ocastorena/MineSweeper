@@ -1,6 +1,7 @@
+import sys
 from tkinter import Button, Label
 import random
-
+import ctypes
 import settings
 
 
@@ -22,6 +23,8 @@ class Cell:
         self.cell_btn_object = None
         self.x = x
         self.y = y
+
+        # append the object to the Cell.all list
         Cell.all.append(self)
 
     def create_btn_object(self, location):
@@ -31,7 +34,7 @@ class Cell:
             height=4
         )
         btn.bind('<Button-1>', self.left_click_actions)
-        btn.bind('<Button-2>', self.right_click_actions)
+        btn.bind('<Button-3>', self.right_click_actions)
         self.cell_btn_object = btn
 
     @staticmethod
@@ -53,10 +56,17 @@ class Cell:
                 for cell_obj in self.surrounded_cells:
                     cell_obj.show_cell()
             self.show_cell()
+            # if mines count is equal to remaining count
+            if Cell.cell_count == settings.MINES_COUNT:
+                ctypes.windll.user32.MessageBoxW(0, "Congratulations! You won the game!", "Game Over", 0)
+        # cancel left and right click events if cell is already opened
+        self.cell_btn_object.unbind("<Button-1>")
+        self.cell_btn_object.unbind("<Button-3>")
 
     def show_mine(self):
         self.cell_btn_object.configure(bg="red")
-        print("I am a mine")
+        ctypes.windll.user32.MessageBoxW(0, "You clicked on a mine", "Game Over", 0)
+        sys.exit()
 
     def show_cell(self):
         if not self.is_opened:
@@ -67,6 +77,7 @@ class Cell:
                 Cell.cell_count_label_object.configure(
                     text=f"Cells left:{Cell.cell_count}"
                 )
+        self.cell_btn_object.configure(bg="SystemButtonFace")
         # mark the cell as open
         self.is_opened = True
 
